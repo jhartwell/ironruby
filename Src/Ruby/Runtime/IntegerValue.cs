@@ -17,7 +17,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using IronRuby.Compiler.Generation;
-using Microsoft.Scripting.Math;
+using System.Numerics;
 using IronRuby.Builtins;
 using System.Diagnostics;
 using Microsoft.Scripting.Runtime;
@@ -37,8 +37,8 @@ namespace IronRuby.Runtime {
                 return Equals((IntegerValue)obj);
             } else if (obj is int) {
                 return Equals(new IntegerValue((int)obj));
-            } else if (obj is BigInteger) {
-                return Equals(new IntegerValue(obj as BigInteger));
+            } else if (obj is BigInteger bigInt) {
+                return Equals(new IntegerValue(bigInt));
             }
 
             return false;
@@ -72,7 +72,7 @@ namespace IronRuby.Runtime {
 
         public IntegerValue(int value) {
             _fixnum = value;
-            _bignum = null;
+            _bignum = 0;
         }
 
         public IntegerValue(BigInteger/*!*/ value) {
@@ -96,17 +96,28 @@ namespace IronRuby.Runtime {
             int result;
             if (IsFixnum) {
                 result = _fixnum;
-            } else if (!_bignum.AsInt32(out result)) {
+            } 
+            try
+            {
+                result = Convert.ToInt32(_bignum);
+            }catch(OverflowException)
+            {
                 throw RubyExceptions.CreateRangeError("Bignum too big to convert into 32-bit signed integer");
             }
             return result;
         }
 
         public long ToInt64() {
-            long result;
+            long result; 
             if (IsFixnum) {
                 result = _fixnum;
-            } else if (!_bignum.AsInt64(out result)) {
+            } 
+
+            try
+            {
+                result = Convert.ToInt64(_bignum);
+            }catch(OverflowException)
+            {
                 throw RubyExceptions.CreateRangeError("Bignum too big to convert into 64-bit signed integer");
             }
             return result;
@@ -119,11 +130,12 @@ namespace IronRuby.Runtime {
                 return unchecked((uint)_fixnum);
             }
 
-            uint u;
-            if (_bignum.AsUInt32(out u)) {
-                return u;
+            try{
+                return Convert.ToUInt32(_bignum);
+            }catch(OverflowException)
+            {
+                throw RubyExceptions.CreateRangeError("bignum too big to convert into 32-bit unsigned integer");
             }
-            throw RubyExceptions.CreateRangeError("bignum too big to convert into 32-bit unsigned integer");
         }
 
         public bool Equals(IntegerValue other) {

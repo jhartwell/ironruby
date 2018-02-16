@@ -23,6 +23,7 @@ using IronRuby.Runtime;
 using System.IO;
 using System.Text;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace IronRuby.Tests {
     internal class AssertTokenizer {
@@ -164,7 +165,25 @@ namespace IronRuby.Tests {
         public AssertTokenizer/*!*/ ReadBigInteger(string/*!*/ expected, int @base) {
             Next();
             _tests.Assert(_actualToken == Tokens.BigInteger);
-            _tests.Assert(StringComparer.OrdinalIgnoreCase.Compare(_actualValue.BigInteger.ToString(@base), expected) == 0);
+            var bigint = _actualValue.BigInteger;
+            string actual = string.Empty;
+            switch(@base)
+            {
+                case 10:
+                    actual = bigint.ToString();
+                    break;
+                case 16:
+                    actual = bigint.ToString("x");
+                    break;
+                case 64:
+                    actual = Convert.ToBase64String(bigint.ToByteArray());
+                    break;
+                case 2:
+                    byte[] asBytes = bigint.ToByteArray();
+                    actual = string.Join("", asBytes.Select(x => Convert.ToString(x, 2).PadLeft(8, '0')));
+                    break;
+            }
+            _tests.Assert(StringComparer.OrdinalIgnoreCase.Compare(actual, expected) == 0);
             return this;
         }
 

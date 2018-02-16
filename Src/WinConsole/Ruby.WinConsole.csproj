@@ -10,6 +10,7 @@
     <AssemblyName>irw</AssemblyName>
     <PlatformTarget>x86</PlatformTarget>
     <CodeAnalysisRuleSet>Ruby.WinConsole.ruleset</CodeAnalysisRuleSet>
+    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'FxCop|AnyCPU' ">
   </PropertyGroup>
@@ -21,8 +22,26 @@
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'v2Release|AnyCPU' ">
   </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'AndroidRelease|AnyCPU' ">
+    <NoStdLib>false</NoStdLib>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'AndroidDebug|AnyCPU' ">
+    <NoStdLib>false</NoStdLib>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System.Windows.Forms" />
+    <Reference Include="Microsoft.Dynamic">
+      <HintPath>..\..\packages\DynamicLanguageRuntime.1.2.1\lib\net45\Microsoft.Dynamic.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Scripting">
+      <HintPath>..\..\packages\DynamicLanguageRuntime.1.2.1\lib\net45\Microsoft.Scripting.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Scripting.Metadata">
+      <HintPath>..\..\packages\DynamicLanguageRuntime.1.2.1\lib\net45\Microsoft.Scripting.Metadata.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.CodeCoverage.Shim">
+      <HintPath>..\..\packages\DynamicLanguageRuntime.1.2.1\lib\net45\Microsoft.VisualStudio.CodeCoverage.Shim.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Libraries\IronRuby.Libraries.csproj">
@@ -40,7 +59,6 @@
     <Compile Include="..\AssemblyVersion.cs">
       <Link>Properties\AssemblyVersion.cs</Link>
     </Compile>
-    <Compile Include="Properties\BuildInfo.Generated.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\App.Debug.config">
@@ -49,6 +67,7 @@
     <None Include="..\App.Release.config">
       <Link>App.Release.config</Link>
     </None>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(CSharpTargets)" />
   <Import Project="$(BeforeTargetFiles)" />

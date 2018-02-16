@@ -28,7 +28,7 @@ using Microsoft.Scripting.Utils;
 using IronRuby.Builtins;
 using IronRuby.Runtime;
 using IronRuby.StandardLibrary.FileControl;
-using Microsoft.Scripting.Math;
+using System.Numerics;
 using IronRuby.Runtime.Calls;
 using System.Globalization;
 using IronRuby.Compiler;
@@ -604,9 +604,11 @@ namespace IronRuby.StandardLibrary.Sockets {
 
         internal static string/*!*/ ConvertToHostString(ConversionStorage<MutableString>/*!*/ stringCast, object hostName) {
             BigInteger bignum;
+            bool isBigInt = hostName is BigInteger;
+
             if (hostName is int) {
                 return ConvertToHostString((int)hostName);
-            } else if (!ReferenceEquals(bignum = hostName as BigInteger, null)) {
+            } else if (isBigInt && !ReferenceEquals(bignum = (BigInteger)hostName, null)) {
                 return ConvertToHostString(bignum);
             } else if (hostName != null) {
                 return ConvertToHostString(Protocols.CastToString(stringCast, hostName));
@@ -629,16 +631,21 @@ namespace IronRuby.StandardLibrary.Sockets {
                 return true;
             }
 
-            var bignum = value as BigInteger;
-            if ((object)bignum != null) {
-                if (!bignum.AsInt32(out result)) {
+            if(value is BigInteger bignum)
+            {
+                try
+                {
+                    result = Convert.ToInt32(bignum);
+                    return true;
+                }
+                catch(OverflowException)
+                {
                     throw RubyExceptions.CreateRangeError("bignum too big to convert into `long'");
                 }
-                return true;
-            }
 
+            }
             result = 0;
-            return false;
+            return true;
         }
 
         internal static int ConvertToPortNum(ConversionStorage<MutableString>/*!*/ stringCast, ConversionStorage<int>/*!*/ fixnumCast, object port) {

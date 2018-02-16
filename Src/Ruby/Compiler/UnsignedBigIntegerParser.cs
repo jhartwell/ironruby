@@ -1,4 +1,4 @@
-/* ****************************************************************************
+﻿/* ****************************************************************************
  *
  * Copyright (c) Microsoft Corporation. 
  *
@@ -16,7 +16,8 @@
 using System;
 using System.Diagnostics;
 using Microsoft.Scripting.Utils;
-using Microsoft.Scripting.Math; 
+using System.Numerics;
+using System.Linq;
 
 namespace IronRuby.Compiler {
 
@@ -72,7 +73,7 @@ namespace IronRuby.Compiler {
                 ReadOctalTriword(result, i, DigitsPerWord);
             }
 
-            return new BigInteger(+1, result);
+            return new BigInteger(result.SelectMany(BitConverter.GetBytes).ToArray());
         }
 
         private void ReadOctalTriword(uint[]/*!*/ result, int i, int digits) {
@@ -132,7 +133,7 @@ namespace IronRuby.Compiler {
                 count = MultiplyAdd(result, count, wordBase, ReadWord(digitsPerWord, @base));
             }
 
-            return new BigInteger(+1, result);
+            return new BigInteger(result.SelectMany(BitConverter.GetBytes).ToArray());
         }
 
         private int GetResultSize(int digitCount, uint @base) {
@@ -164,7 +165,7 @@ namespace IronRuby.Compiler {
                 result[i] = ReadBinaryWord(digitsPerWord, bitsPerDigit);
             }
 
-            return new BigInteger(+1, result);
+            return new BigInteger(result.SelectMany(BitConverter.GetBytes).ToArray());
         }
 
         // data = data * x + carry

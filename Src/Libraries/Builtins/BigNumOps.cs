@@ -1,4 +1,4 @@
-/* ****************************************************************************
+﻿/* ****************************************************************************
  *
  * Copyright (c) Microsoft Corporation. 
  *
@@ -16,7 +16,7 @@
 using System;
 using IronRuby.Runtime;
 using Microsoft.Scripting.Generation;
-using Microsoft.Scripting.Math;
+using System.Numerics;
 using Microsoft.Scripting.Runtime;
 
 namespace IronRuby.Builtins {
@@ -43,7 +43,14 @@ namespace IronRuby.Builtins {
         /// </example>
         [RubyMethod("size")]
         public static int Size(BigInteger/*!*/ self) {
-            return self.GetWordCount() * 4;
+            int byteCount = 0;
+            while (self != 0)
+            {
+                if ((self & 0x1) == 0x1) byteCount++;
+                self >>= 1;
+            }
+            int wordCount = byteCount / 2;
+            return wordCount * 4;
         }
     }
 }

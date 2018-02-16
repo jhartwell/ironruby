@@ -21,13 +21,14 @@ using System.Runtime.InteropServices;
 using System.Runtime.Serialization;
 using IronRuby.Runtime;
 using Microsoft.Scripting;
-using Microsoft.Scripting.Math;
+using System.Numerics;
 using Microsoft.Scripting.Runtime;
 using Microsoft.Scripting.Utils;
 using Microsoft.Scripting.Generation;
 using IronRuby.Runtime.Calls;
 using System.Globalization;
 using System.Text;
+using System.Linq;
 
 namespace IronRuby.Builtins {
 
@@ -560,7 +561,7 @@ namespace IronRuby.Builtins {
                     bits[dwords_lo] = _reader.ReadUInt16();
                 }
 
-                return new BigInteger(sign, bits);
+                return new BigInteger(bits.SelectMany(BitConverter.GetBytes).ToArray()) * sign;
             }
 
             private int ReadInt32() {

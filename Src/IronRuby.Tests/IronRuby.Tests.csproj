@@ -14,6 +14,7 @@
     -->
     <NoWarn>$(NoWarn);169;649;219;414</NoWarn>
     <DocumentationFile>$(SolutionDir)..\bin\$(Configuration)\$(AssemblyName).xml</DocumentationFile>
+    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
   </PropertyGroup>
@@ -22,6 +23,12 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'v2Debug|AnyCPU' ">
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'v2Release|AnyCPU' ">
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'AndroidRelease|AnyCPU' ">
+    <NoStdLib>false</NoStdLib>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'AndroidDebug|AnyCPU' ">
+    <NoStdLib>false</NoStdLib>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="DLR\ReflectionUtilsTests.cs" />
@@ -74,7 +81,6 @@
     <Compile Include="Runtime\SingletonTests.cs" />
     <Compile Include="Runtime\ExceptionTests.cs" />
     <Compile Include="Runtime\RubyUtilsTests.cs" />
-    <Compile Include="Properties\BuildInfo.Generated.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Parser\Sources.txt" />
@@ -86,10 +92,26 @@
     <None Include="..\App.Release.config">
       <Link>App.Release.config</Link>
     </None>
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup Condition=" '$(IsFullFramework)' == 'true' ">
     <Reference Include="System.Data" />
     <Reference Include="System.Windows.Forms" />
+    <Reference Include="Microsoft.Dynamic">
+      <HintPath>..\..\packages\DynamicLanguageRuntime.1.2.1\lib\net45\Microsoft.Dynamic.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Scripting">
+      <HintPath>..\..\packages\DynamicLanguageRuntime.1.2.1\lib\net45\Microsoft.Scripting.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Scripting.Metadata">
+      <HintPath>..\..\packages\DynamicLanguageRuntime.1.2.1\lib\net45\Microsoft.Scripting.Metadata.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.CodeCoverage.Shim">
+      <HintPath>..\..\packages\DynamicLanguageRuntime.1.2.1\lib\net45\Microsoft.VisualStudio.CodeCoverage.Shim.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Numerics" />
+    <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Libraries\IronRuby.Libraries.csproj">
@@ -100,9 +122,6 @@
       <Project>{7F6984B4-EE6D-4E6F-ABB1-E210D7DC4FDD}</Project>
       <Name>Ruby</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Reference Include="Microsoft.Dynamic, Version=1.1.0.20, Culture=neutral, PublicKeyToken=7f709c5b713576e1, processorArchitecture=MSIL" />
   </ItemGroup>
   <Import Project="$(CSharpTargets)" />
   <Import Project="$(BeforeTargetFiles)" />

@@ -24,7 +24,7 @@ using System.Runtime.InteropServices;
 using IronRuby.Builtins;
 using IronRuby.Runtime;
 using Microsoft.Scripting.Hosting;
-using Microsoft.Scripting.Math;
+using System.Numerics;
 using Microsoft.Scripting.Runtime;
 using Microsoft.Scripting.Utils;
 using Microsoft.Scripting.Actions;
@@ -3290,7 +3290,7 @@ false
                 return a ?? b ?? 3;
             }
 
-            public object[] Numerics(byte a, sbyte b, short c, ushort d, int e, uint f, long g, ulong h, BigInteger i, Complex64 j, Convertible1 k) {
+            public object[] Numerics(byte a, sbyte b, short c, ushort d, int e, uint f, long g, ulong h, BigInteger i, Complex j, Convertible1 k) {
                 return new object[] { a, b, c, d, e, f, g, h, i, j, k };
             }
 

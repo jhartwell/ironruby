@@ -1,4 +1,4 @@
-/* ****************************************************************************
+﻿/* ****************************************************************************
  *
  * Copyright (c) Microsoft Corporation. 
  *
@@ -36,7 +36,7 @@ using IronRuby.Compiler.Generation;
 using IronRuby.Runtime.Calls;
 using Microsoft.Scripting;
 using Microsoft.Scripting.Interpreter;
-using Microsoft.Scripting.Math;
+using System.Numerics;
 using Microsoft.Scripting.Runtime;
 using Microsoft.Scripting.Utils;
 using IronRuby.Compiler.Ast;
@@ -2173,15 +2173,17 @@ namespace IronRuby.Runtime {
                 return (int)obj;
             }
 
-            var bignum = obj as BigInteger;
-            if ((object)bignum != null) {
-                int fixnum;
-                if (bignum.AsInt32(out fixnum)) {
-                    return fixnum;
+            if(obj is BigInteger bignum)
+            {
+                try
+                {
+                    return Convert.ToInt32(bignum);
                 }
-                throw RubyExceptions.CreateRangeError("bignum too big to convert into {0}", targetType);
+                catch (OverflowException)
+                {
+                    throw RubyExceptions.CreateRangeError("bignum too big to convert into {0}", targetType);
+                }
             }
-
             throw RubyExceptions.CreateReturnTypeError(className, "to_int", "Integer");
         }
 
@@ -2212,68 +2214,64 @@ namespace IronRuby.Runtime {
 
         [Emitted] // ProtocolConversionAction
         public static UInt32 ToUInt32Validator(string/*!*/ className, object obj) {
-            if (obj is int) {
-                return Converter.ToUInt32((int)obj);
+            if (obj is int integer) {
+                return Converter.ToUInt32(integer);
             }
 
-            var bignum = obj as BigInteger;
-            if ((object)bignum != null) {
+            if(obj is BigInteger bignum)
+            {
                 return Converter.ToUInt32(bignum);
             }
-
             throw RubyExceptions.CreateReturnTypeError(className, "to_int/to_i", "Integer");
         }
 
         [Emitted] // ProtocolConversionAction
         public static Int64 ToInt64Validator(string/*!*/ className, object obj) {
-            if (obj is int) {
-                return (int)obj;
+            if (obj is int integer) {
+                return integer;
             }
 
-            var bignum = obj as BigInteger;
-            if ((object)bignum != null) {
-                return Converter.ToInt64(bignum);
+            if(obj is BigInteger bignum)
+            {
+                return Converter.ToInt64(bignum);   
             }
-
             throw RubyExceptions.CreateReturnTypeError(className, "to_int/to_i", "Integer");
         }
 
         [Emitted] // ProtocolConversionAction
         public static UInt64 ToUInt64Validator(string/*!*/ className, object obj) {
-            if (obj is int) {
-                return Converter.ToUInt64((int)obj);
+            if (obj is int integer) {
+                return Converter.ToUInt64(integer);
             }
 
-            var bignum = obj as BigInteger;
-            if ((object)bignum != null) {
+            if(obj is BigInteger bignum)
+            {
                 return Converter.ToUInt64(bignum);
             }
-
             throw RubyExceptions.CreateReturnTypeError(className, "to_int/to_i", "Integer");
         }
 
         [Emitted] // ProtocolConversionAction
         public static BigInteger ToBignumValidator(string/*!*/ className, object obj) {
-            if (obj is int) {
-                return (int)obj;
+            if (obj is int integer) {
+                return integer;
             }
 
-            var bignum = obj as BigInteger;
-            if ((object)bignum != null) {
+            if(obj is BigInteger bignum) 
+            {
                 return bignum;
             }
-
             throw RubyExceptions.CreateReturnTypeError(className, "to_int/to_i", "Integer");
         }
 
         [Emitted] // ProtocolConversionAction
         public static IntegerValue ToIntegerValidator(string/*!*/ className, object obj) {
-            if (obj is int) {
-                return new IntegerValue((int)obj);
+            if (obj is int integer) {
+                return new IntegerValue(integer);
             }
 
-            var bignum = obj as BigInteger;
-            if ((object)bignum != null) {
+            if(obj is BigInteger bignum)
+            {
                 return new IntegerValue(bignum);
             }
 
@@ -2282,12 +2280,12 @@ namespace IronRuby.Runtime {
 
         [Emitted] // ProtocolConversionAction
         public static double ToDoubleValidator(string/*!*/ className, object obj) {
-            if (obj is double) {
-                return (double)obj;
+            if (obj is double doubleObj) {
+                return doubleObj;
             }
 
-            if (obj is float) {
-                return (double)(float)obj;
+            if (obj is float floatObj) {
+                return (double)floatObj;
             }
 
             throw RubyExceptions.CreateReturnTypeError(className, "to_f", "Float");
@@ -2295,12 +2293,12 @@ namespace IronRuby.Runtime {
 
         [Emitted] // ProtocolConversionAction
         public static float ToSingleValidator(string/*!*/ className, object obj) {
-            if (obj is double) {
-                return (float)(double)obj;
+            if (obj is double doubleObj) {
+                return (float)doubleObj;
             }
 
-            if (obj is float) {
-                return (float)obj;
+            if (obj is float floatObj) {
+                return floatObj;
             }
 
             throw RubyExceptions.CreateReturnTypeError(className, "to_f", "System::Single");
@@ -2562,7 +2560,6 @@ namespace IronRuby.Runtime {
                 } else if (fieldCount <= 64) {
                     return typeof(MutableTuple<object, object, object, object, object, object, object, object, object, object, object, object, object, object, object, object, object, object, object, object, object, object, object, object, object, object, object, object, object, object, object, object, object, object, object, object, object, object, object, object, object, object, object, object, object, object, object, object, object, object, object, object, object, object, object, object, object, object, object, object, object, object, object, object>);
                 } else {
-                    Debug.Assert(!PlatformAdaptationLayer.IsCompactFramework);
                     return MakeObjectTupleType128();
                 }
             }
@@ -2595,10 +2592,8 @@ namespace IronRuby.Runtime {
                 return new MutableTuple<object, object, object, object, object, object, object, object, object, object, object, object, object, object, object, object, object, object, object, object, object, object, object, object, object, object, object, object, object, object, object, object>();
             } else if (fieldCount <= 64) {
                 return new MutableTuple<object, object, object, object, object, object, object, object, object, object, object, object, object, object, object, object, object, object, object, object, object, object, object, object, object, object, object, object, object, object, object, object, object, object, object, object, object, object, object, object, object, object, object, object, object, object, object, object, object, object, object, object, object, object, object, object, object, object, object, object, object, object, object, object>();
-            } else {
-                Debug.Assert(!PlatformAdaptationLayer.IsCompactFramework);
-                return CreateObjectTuple128();
             }
+            return CreateObjectTuple128();
         }
 
         [MethodImpl(MethodImplOptions.NoInlining)]

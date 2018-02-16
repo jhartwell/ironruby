@@ -1,4 +1,4 @@
-/* ****************************************************************************
+﻿/* ****************************************************************************
  *
  * Copyright (c) Microsoft Corporation. 
  *
@@ -18,8 +18,8 @@
 
 namespace IronRuby.StandardLibrary.Yaml {
     using System;
-    using Microsoft.Scripting.Utils;
-    using System.Runtime.InteropServices;
+    using System.Numerics;
+    using Microsoft.Scripting.Runtime;
     
     public sealed class YamlLibraryInitializer : IronRuby.Builtins.LibraryInitializer {
         protected override void LoadModules() {
@@ -38,8 +38,8 @@ namespace IronRuby.StandardLibrary.Yaml {
             ExtendModule(typeof(IronRuby.Builtins.RubySymbol), 0x00000000, LoadIronRuby__Builtins__RubySymbol_Instance, null, null, IronRuby.Builtins.RubyModule.EmptyArray);
             ExtendModule(typeof(IronRuby.Builtins.RubyTime), 0x00000000, LoadIronRuby__Builtins__RubyTime_Instance, null, null, IronRuby.Builtins.RubyModule.EmptyArray);
             ExtendModule(typeof(IronRuby.Builtins.TrueClass), 0x00000000, LoadIronRuby__Builtins__TrueClass_Instance, null, null, IronRuby.Builtins.RubyModule.EmptyArray);
-            ExtendModule(typeof(Microsoft.Scripting.Math.BigInteger), 0x00000000, LoadMicrosoft__Scripting__Math__BigInteger_Instance, null, null, IronRuby.Builtins.RubyModule.EmptyArray);
-            ExtendModule(typeof(Microsoft.Scripting.Runtime.DynamicNull), 0x00000000, LoadMicrosoft__Scripting__Runtime__DynamicNull_Instance, null, null, IronRuby.Builtins.RubyModule.EmptyArray);
+            ExtendModule(typeof(BigInteger), 0x00000000, LoadMicrosoft__Scripting__Math__BigInteger_Instance, null, null, IronRuby.Builtins.RubyModule.EmptyArray);
+            ExtendModule(typeof(DynamicNull), 0x00000000, LoadMicrosoft__Scripting__Runtime__DynamicNull_Instance, null, null, IronRuby.Builtins.RubyModule.EmptyArray);
             ExtendModule(typeof(System.Double), 0x00000000, LoadSystem__Double_Instance, null, null, IronRuby.Builtins.RubyModule.EmptyArray);
             ExtendModule(typeof(System.Exception), 0x00000000, LoadSystem__Exception_Instance, null, null, IronRuby.Builtins.RubyModule.EmptyArray);
             ExtendModule(typeof(System.Int32), 0x00000000, LoadSystem__Int32_Instance, null, null, IronRuby.Builtins.RubyModule.EmptyArray);
@@ -235,12 +235,12 @@ namespace IronRuby.StandardLibrary.Yaml {
         private static void LoadMicrosoft__Scripting__Math__BigInteger_Instance(IronRuby.Builtins.RubyModule/*!*/ module) {
             DefineLibraryMethod(module, "taguri", 0x11, 
                 0x00000001U, 
-                new Func<Microsoft.Scripting.Math.BigInteger, IronRuby.Builtins.MutableString>(IronRuby.StandardLibrary.Yaml.YamlBigIntegerOps.TagUri)
+                new Func<BigInteger, IronRuby.Builtins.MutableString>(IronRuby.StandardLibrary.Yaml.YamlBigIntegerOps.TagUri)
             );
             
             DefineLibraryMethod(module, "to_yaml_node", 0x12, 
                 0x00000003U, 
-                new Func<Microsoft.Scripting.Math.BigInteger, IronRuby.StandardLibrary.Yaml.RubyRepresenter, IronRuby.StandardLibrary.Yaml.Node>(IronRuby.StandardLibrary.Yaml.YamlBigIntegerOps.ToYaml)
+                new Func<BigInteger, IronRuby.StandardLibrary.Yaml.RubyRepresenter, IronRuby.StandardLibrary.Yaml.Node>(IronRuby.StandardLibrary.Yaml.YamlBigIntegerOps.ToYaml)
             );
             
         }

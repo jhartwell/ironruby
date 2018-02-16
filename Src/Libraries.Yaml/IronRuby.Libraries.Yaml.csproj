@@ -10,6 +10,7 @@
     <AssemblyName>IronRuby.Libraries.Yaml</AssemblyName>
     <CodeAnalysisRuleSet>$(AssemblyName).ruleset</CodeAnalysisRuleSet>
     <DocumentationFile>$(OutputPath)\$(AssemblyName).xml</DocumentationFile>
+    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'FxCop|AnyCPU' ">
   </PropertyGroup>
@@ -34,13 +35,12 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Silverlight4Release|AnyCPU' ">
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'AndroidDebug|AnyCPU' ">
+    <NoStdLib>false</NoStdLib>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'AndroidRelease|AnyCPU' ">
+    <NoStdLib>false</NoStdLib>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="..\..\..\Hosts\Silverlight\SilverlightVersion.cs" Condition=" '$(IsSilverlight)' == 'true' ">
-      <Link>Properties\SilverlightVersion.cs</Link>
-    </Compile>
     <Compile Include="Engine\ScalarProperties.cs" />
     <Compile Include="Engine\ScalarQuotingStyle.cs" />
     <Compile Include="Engine\FlowStyle.cs" />
@@ -75,11 +75,11 @@
     <Compile Include="Syck.cs" />
     <Compile Include="YamlCallSiteStorage.cs" />
     <Compile Include="YamlStream.cs" />
-    <Compile Include="Properties\BuildInfo.Generated.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Engine\resolver_scanner.rl" />
     <None Include="IronRuby.Libraries.Yaml.ruleset" />
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Libraries\IronRuby.Libraries.csproj">
@@ -90,6 +90,22 @@
       <Project>{7F6984B4-EE6D-4E6F-ABB1-E210D7DC4FDD}</Project>
       <Name>Ruby</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System.Numerics" />
+    <Reference Include="Microsoft.Dynamic">
+      <HintPath>..\..\packages\DynamicLanguageRuntime.1.2.1\lib\net45\Microsoft.Dynamic.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Scripting">
+      <HintPath>..\..\packages\DynamicLanguageRuntime.1.2.1\lib\net45\Microsoft.Scripting.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Scripting.Metadata">
+      <HintPath>..\..\packages\DynamicLanguageRuntime.1.2.1\lib\net45\Microsoft.Scripting.Metadata.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.CodeCoverage.Shim">
+      <HintPath>..\..\packages\DynamicLanguageRuntime.1.2.1\lib\net45\Microsoft.VisualStudio.CodeCoverage.Shim.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
   </ItemGroup>
   <Import Project="$(CSharpTargets)" />
   <Import Project="$(BeforeTargetFiles)" />

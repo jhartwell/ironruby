@@ -28,7 +28,8 @@ using Microsoft.Scripting.Actions;
 using Microsoft.Scripting.Generation;
 using Microsoft.Scripting.Runtime;
 using Microsoft.Scripting.Utils;
-using Microsoft.Scripting.Math;
+using System.Numerics;
+using System.Linq;
 
 namespace IronRuby.Builtins {
     public static class RubyEncoder {
@@ -229,7 +230,7 @@ namespace IronRuby.Builtins {
                 words[windex] |= (uint)w;
             }
             index += byteCount;
-            return new BigInteger(+1, words);
+            return new BigInteger(words.SelectMany(BitConverter.GetBytes).ToArray());
         }
 
         #endregion

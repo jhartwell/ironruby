@@ -1,0 +1,27 @@
+﻿<Properties StartupConfiguration="{8103D91B-89D8-4A18-9A40-426992602EA2}|Default">
+  <MonoDevelop.Ide.ItemProperties.IronRuby.Tests PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Build/net40.props">
+    <Files>
+      <File FileName="Src/WinConsole/Program.cs" Line="19" Column="28" />
+      <File FileName="Src/App.Debug.config" Line="5" Column="132" />
+      <File FileName="Src/App.Release.config" Line="5" Column="132" />
+      <File FileName="Src/Console/Properties/AssemblyInfo.cs" Line="1" Column="1" />
+      <File FileName="Src/Console/packages.config" Line="1" Column="1" />
+      <File FileName="Src/Console/Program.cs" Line="24" Column="17" />
+      <File FileName="Src/IronRuby.Tests/Helpers.cs" Line="23" Column="19" />
+      <File FileName="Src/IronRuby.Tests/Runtime/DlrInteropTests.cs" Line="18" Column="35" />
+      <File FileName="Src/IronRuby.Tests/Runtime/ClrTests.cs" Line="3290" Column="36" />
+      <File FileName="Src/IronRuby.Tests/Parser/AssertTokenizer.cs" Line="188" Column="10" />
+      <File FileName="Src/IronRuby.Tests/Parser/ParserTests.cs" Line="686" Column="68" />
+      <File FileName="Src/IronRuby.Tests/Parser/TokenizerTestDriver.cs" Line="301" Column="69" />
+      <File FileName="Build/net45.props" Line="1" Column="1" />
+      <File FileName="Build/net40.props" Line="1" Column="1" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MultiItemStartupConfigurations />
+</Properties>
